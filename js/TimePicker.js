@@ -234,16 +234,18 @@
                 var a = $(".aInput",timeObject).val();
                 if(!s) s= "00";
                 if(!a) a= "--";
+                var r = true;
                 if(defaults.accept){
-                    defaults.accept(el,h,m,s,a);
+                    r = defaults.accept(el,h,m,s,a);
                 }else {
                     if(defaults.time24) {
                         $(el).val(h + ":" + m + ":" + s);
                     }else{
                         $(el).val(h + ":" + m + ":" + s + " " + a);
                     }
-                    _close();
+
                 }
+                if(r!==false)_close();
             }
             function _cancel() {
                 _close();
