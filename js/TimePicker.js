@@ -134,7 +134,7 @@
                     }
                 });
                 setTime();
-                /* metodo no funcional para calendar tubo que ser ajustado
+                /* Method in test
                  timeObject.focusout(function (e) {
                  console.log(document.activeElement);
                  if ($(document.activeElement).closest(timeObject).length == 0){
