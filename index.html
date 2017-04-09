@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/TimePicker.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/TimePicker.js"></script>
+</head>
+<body>
+<div style="display:inline-block"><input type="text" class="time" value="20:12:54"></div>
+<div style="display:inline-block"><input type="text" class="time2" value="20:12:54"></div>
+<div style="display:inline-block"><input type="text" class="time3" value="20:12:54"></div>
+<div style="display:inline-block"><input type="text" class="time4" value="20:12:54"></div>
+
+    <script>
+        $(".time").TimePicker({showSeg:true});
+        $(".time2").TimePicker({showSeg:false});
+        $(".time3").TimePicker({showSeg:true,time24:false});
+        $(".time4").TimePicker({
+            showSeg:true,
+            time24:false,
+            accept:function(el,h,m,s,a){
+                if(a === "PM")h = parseInt(h)+12;
+                $(el).val(h+":"+m+":"+s);
+            }
+        });
+    </script>
+</body>
+</html>

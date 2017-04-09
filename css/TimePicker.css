@@ -1,0 +1,62 @@
+.timePicker{
+    padding-bottom: 5px;
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 5px;
+    width: 200px;
+    position: absolute;
+    display: none;
+    background-color: white;
+    z-index: 1000;
+}
+.timePicker .title{
+    padding: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    background-color: #e2e2e2;
+}
+.timePicker .inputs, .timePicker .topbtn, .timePicker .buttonbtn{
+    text-align: center;
+}
+.timePicker .inputs input{
+    width: 20px;
+    text-align: center;
+}
+.timePicker .arrow-up {
+    display: inline-block;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 10px solid #34495e;
+    user-select: none;
+}
+.timePicker .arrow-down {
+    display: inline-block;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 10px solid #34495e;
+    user-select: none;
+}
+.timePicker .arrow-up:hover {
+    border-bottom: 10px solid #4c89ba;
+}
+.timePicker .arrow-down:hover{
+    border-top: 10px solid #4c89ba;
+}
+.timePicker .btns{
+    text-align: right;
+    margin-top: 2px;
+}
+.timePicker .btn {
+    display: inline-block;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+.timePicker .btn:hover {
+    background-color: #e2e2e2;
+}
