@@ -134,7 +134,7 @@
                     }
                 });
                 setTime();
-                /* Method in test
+                /* metodo no funcional para calendar tubo que ser ajustado
                  timeObject.focusout(function (e) {
                  console.log(document.activeElement);
                  if ($(document.activeElement).closest(timeObject).length == 0){
@@ -235,15 +235,24 @@
                 if(!s) s= "00";
                 if(!a) a= "--";
                 var r = true;
+                if(!defaults.time24){
+                    if(a === "PM" && parseInt(h) !== 12){
+                        h = parseInt(h)+12;
+                        if(h == 24) h = 0;
+                    }
+                }
+                var time = new Date();
+                time.setHours(parseInt(h));
+                time.setMinutes(parseInt(m));
+                time.setSeconds(parseInt(s));
                 if(defaults.accept){
-                    r = defaults.accept(el,h,m,s,a);
+                    r = defaults.accept(el,time);
                 }else {
                     if(defaults.time24) {
-                        $(el).val(h + ":" + m + ":" + s);
+                        $(el).val($.TimeDateFormat(time,"H:m:S"));
                     }else{
-                        $(el).val(h + ":" + m + ":" + s + " " + a);
+                        $(el).val($.TimeDateFormat(time,"h:m:S A"));
                     }
-
                 }
                 if(r!==false)_close();
             }
@@ -254,29 +263,47 @@
         });
     }
     $.extend({
-        TimePickerTo24:function(time){
-
-            console.log("Trabajando aun");
-            return false;
-
-            var v = time.replace(" AM");
-            v = v.replace(" PM");
-            a = /[AP][M]/.exec(time)[0];
-            var t = time.split(":");
-            if(parseInt(t[0]) > 12){
-                h =parseInt(t[0]) - 12;
-                a = "PM";
-                if(h>12)h=12;
-            }else if(parseInt(t[0]) === 0) h = 12;
-            else h=parseInt(t[0]);
-            if(parseInt(t[1]) > 59)m = 0;
-            else m=parseInt(t[1]);
-            if(parseInt(t[2]) > 59)s = 0;
-            else s=parseInt(t[2]);
+        TimePad:function(num){
+            var norm = Math.abs(Math.floor(num));
+            return (norm < 10 ? '0' : '') + norm;
         },
-        TimePickerTo12A:function(time){
-            console.log("trabajando aun");
-            return false;
+        TimeDateFormat:function(date,format){
+            if(!format)format = "Y-M-D";
+            format = format.split("Y").join($.TimePad(date.getFullYear()));
+            format = format.split("M").join($.TimePad(date.getMonth()+1));
+            format = format.split("D").join($.TimePad(date.getDate()));
+
+            format = format.split("H").join($.TimePad(date.getHours()));
+            format = format.split("m").join($.TimePad(date.getMinutes()));
+            format = format.split("S").join($.TimePad(date.getSeconds()));
+            var h = date.getHours();
+            var a = "am";
+            if(date.getHours() > 12 && date.getHours() !== 0){
+                h = date.getHours()-12;
+                a = "pm";
+            }else if(date.getHours() === 0){
+                h = 12;
+            }
+            format = format.split("h").join($.TimePad(h));
+            format = format.split("a").join(a);
+            format = format.split("A").join(a.toUpperCase());
+
+            return format;
+        },
+        TimeDateAdd:function(date, interval, units){
+            if(isNaN(parseInt(units))) return undefined;
+            var ret = new Date(date);
+            switch(interval.toLowerCase()) {
+                case 'year'   :  ret.setFullYear(ret.getFullYear() + parseInt(units));  break;
+                case 'month'  :  ret.setMonth(ret.getMonth() + parseInt(units));  break;
+                case 'week'   :  ret.setDate(ret.getDate() + 7*parseInt(units));  break;
+                case 'day'    :  ret.setDate(ret.getDate() + parseInt(units));  break;
+                case 'hour'   :  ret.setTime(ret.getTime() + parseInt(units)*3600000);  break;
+                case 'minute' :  ret.setTime(ret.getTime() + parseInt(units)*60000);  break;
+                case 'second' :  ret.setTime(ret.getTime() + parseInt(units)*1000);  break;
+                default       :  return undefined;  break;
+            }
+            return ret;
         }
     });
 })(jQuery);
